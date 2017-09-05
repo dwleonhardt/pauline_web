@@ -12,7 +12,6 @@ BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
 class DayView extends React.Component {
   render() {
-    console.log(this.props.dailyItems);
     let items;
     if (this.props.dailyItems && this.props.dailyItems.length) {
       items = this.props.dailyItems.map((item, i) => {

@@ -15,7 +15,7 @@ class DailySchedule extends React.Component {
   }
 
   componentDidMount() {
-    this.dayConverter(this.state.today);
+    this.weekConverter(this.state.today);
     this.updateDay(this.state.today);
   }
 
@@ -42,11 +42,14 @@ class DailySchedule extends React.Component {
     })
   }
 
-  dayConverter = (date) => {
+  weekConverter = (date) => {
     let dateCopy = new Date(date);
-    let dayStart = new Date(dateCopy.setHours(0,0,0,0)).toUTCString();
-    let dayEnd = new Date(dateCopy.setDate(date.getDate() + 1)).toUTCString();
-    let range = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
+    let day = dateCopy.getDay();
+    let sunday = dateCopy.getDate() - day + (day === 0 ? -6:0);
+    let weekStart = new Date(dateCopy.setDate(sunday)).toUTCString();
+    let saturday = dateCopy.getDate() - day + (day === 0 ? -6:8);
+    let weekEnd = new Date(dateCopy.setDate(saturday)).toUTCString();
+    let range = JSON.stringify({start:`${weekStart}`, end:`${weekEnd}`});
     this.updateDay(date);
     this.getRange(range);
   }
