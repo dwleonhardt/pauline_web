@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Jumbotron, Button, Col } from 'react-bootstrap';
 import Navigation from './Nav';
-import Items from './Items';
 
 class Home extends Component {
   render() {
