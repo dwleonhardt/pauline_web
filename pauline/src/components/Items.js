@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button } from 'react-bootstrap'
+import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button } from 'react-bootstrap';
+import Navigation from './Nav';
 
 class Items extends Component {
   constructor(){
@@ -36,6 +37,7 @@ class Items extends Component {
   render() {
     return (
       <div>
+        <Navigation />
         <form className="container">
           <Col md={6} mdOffset={3}>
             <h1>Add Schedule Item</h1>
