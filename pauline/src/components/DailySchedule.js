@@ -3,6 +3,7 @@ import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button } from 're
 import { Link } from 'react-router-dom';
 import Navigation from './Nav';
 import DayView from './DayView';
+import ScheduleModal from './ScheduleModal';
 
 
 class DailySchedule extends React.Component {
@@ -11,6 +12,7 @@ class DailySchedule extends React.Component {
     this.state = {
       today: new Date(),
       dateString: '',
+      showModal: false
     }
   }
 
@@ -19,7 +21,6 @@ class DailySchedule extends React.Component {
     this.updateDay(this.state.today);
   }
 
-
   getRange = (range) => {
     return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${range}`)
     .then((response) => response.json())
@@ -27,7 +28,6 @@ class DailySchedule extends React.Component {
       responseJson = responseJson.sort(function(x, y){
         return x.start_time - y.start_time;
       })
-      // console.log(responseJson);
       if (this.state.dailyItems) {
         let copy = Object.assign({}, this.state);
         copy.dailyItems = responseJson;
@@ -62,6 +62,8 @@ class DailySchedule extends React.Component {
     this.setState(copy);
   }
 
+
+
   refreshDay = () => {
     this.props.navigation.navigate('DailyItems',
       {
@@ -75,6 +77,14 @@ class DailySchedule extends React.Component {
     )
   }
 
+  open = () => {
+    this.setState({showModal: true});
+  }
+
+  close = () => {
+    this.setState({showModal: false});
+  }
+
 
   render() {
     return (
@@ -82,6 +92,7 @@ class DailySchedule extends React.Component {
         <Navigation />
         <div className="container" >
           <DayView dailyItems={this.state.dailyItems}/>
+          <ScheduleModal {...this.state} open={this.open} close={this.close}/>
         </div>
       </div>
     )

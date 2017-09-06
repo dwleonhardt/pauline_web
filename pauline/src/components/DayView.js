@@ -17,70 +17,34 @@ class DayView extends React.Component {
       items = this.props.dailyItems.map((item, i) => {
         item.start_time = new Date(item.start_time);
         item.end_time = new Date(item.end_time);
-        return (
-          <Col key={i} md={8} offset={2}>
-
-            <Row>
-              {/* <Col md={2}>
-                <p>{start_time}</p>
-
-              </Col> */}
-              <Col md={2}>
-                <p>{item.title}</p>
-
-              </Col>
-              <Col md={6}>
-                <p>{item.instructions}</p>
-
-              </Col>
-            </Row>
-            <hr/>
-          </Col>
-
-        )
+        return items = true;
       })
     }
     if (items) {
       return (
-        // <div>
-        //   <Col md={8} offset={2}>
-        //
-        //     <Row>
-        //       <Col md={2}>
-        //         <p>Time:</p>
-        //
-        //       </Col>
-        //       <Col md={2}>
-        //         <p>Title:</p>
-        //
-        //       </Col>
-        //       <Col md={6}>
-        //         <p>Description:</p>
-        //
-        //       </Col>
-        //     </Row>
-        //     <hr/>
-        //   </Col>
-        //   {items}
-        // </div>
         <div>
           <BigCalendar
+            selectable
             {...this.props}
             events={this.props.dailyItems}
             startAccessor='start_time'
             endAccessor='end_time'
             views={['week', 'day']}
             defaultView='week'
+            onSelectSlot={(slotInfo) => alert(
+            `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
+            `\nend: ${slotInfo.end.toLocaleString()}`
+            )}
           />
         </div>
       )
     }
     else {
       return (
-        <div className="container">
-          <h1>Nothing Scheduled</h1>
-        </div>
-      )
+          <div className="container">
+            <h1>Please Wait...</h1>
+          </div>
+          )
     }
   }
 }
