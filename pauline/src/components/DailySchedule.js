@@ -14,13 +14,20 @@ class DailySchedule extends React.Component {
       dateString: '',
       showModal: false,
       startTime: new Date(),
-      endTime: new Date()
+      endTime: new Date(),
+      items: []
     }
   }
 
   componentDidMount() {
     this.weekConverter(this.state.today);
     this.updateDay(this.state.today);
+
+    return fetch('https://paulineserver.herokuapp.com/daily_items')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({items: responseJson});
+    })
   }
 
   getRange = (range) => {
@@ -89,9 +96,19 @@ class DailySchedule extends React.Component {
 
   setTime = (slotInfo) => {
     let copy = Object.assign({}, this.state);
-    copy.startTime = slotInfo.start;
-    copy.endTime = slotInfo.end;
-    copy.showModal = true;
+    if (slotInfo.start && slotInfo.end) {
+      copy.startTime = slotInfo.start;
+      copy.endTime = slotInfo.end;
+      copy.showModal = true;
+    }
+    else if (slotInfo.start) {
+      console.log(slotInfo.start);
+      copy.startTime = slotInfo.start;
+    }
+    else {
+      console.log(slotInfo.end);
+      copy.endTime = slotInfo.end;
+    }
     this.setState(copy);
   }
 
@@ -102,7 +119,7 @@ class DailySchedule extends React.Component {
         <Navigation />
         <div className="container" >
           <DayView {...this.state} setTime={this.setTime}/>
-          <ScheduleModal {...this.state} open={this.open} close={this.close}/>
+          <ScheduleModal {...this.state} open={this.open} close={this.close} setTime={this.setTime} />
         </div>
       </div>
     )

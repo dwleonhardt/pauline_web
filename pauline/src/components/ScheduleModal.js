@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
-import { Col, Row, Button, Modal } from 'react-bootstrap';
+import { Col, Row, Button, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
 //
-function onChange(time) {
-  console.log(time);
-}
 
 
 
 
 const ScheduleModal = (props) => {
+
+  const start = (time) => {
+    props.setTime({start: time})
+  }
+
+  const end = (time) => {
+    console.log(time);
+  }
+
+  let items = props.items.map((item, i) => {
+    return <option key={i}>{item.title}</option>
+  });
 
     return (
       <div>
@@ -25,7 +34,7 @@ const ScheduleModal = (props) => {
               showSecond={false}
               defaultValue={moment(props.startTime)}
               className="start"
-              onChange={onChange}
+              onChange={start}
               use12Hours
             />
             <p>End</p>
@@ -33,9 +42,16 @@ const ScheduleModal = (props) => {
               showSecond={false}
               defaultValue={moment(props.endTime)}
               className="end"
-              onChange={onChange}
+              onChange={end}
               use12Hours
             />
+            <FormGroup controlId="formControlsSelect">
+              <ControlLabel>Select Item</ControlLabel>
+              <FormControl componentClass="select" placeholder="Select Item">
+                <option value="select">Select Item</option>
+                {items}
+              </FormControl>
+            </FormGroup>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={props.close}>Submit</Button>
