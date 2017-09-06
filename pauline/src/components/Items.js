@@ -9,16 +9,14 @@ class Items extends Component {
       title: '',
       instructions: ''
     }
-    this.handleInputChange = this.handleInputChange.bind(this);
+    
   }
 
-  handleInputChange(event){
-    // console.log(event.target.name);
+  handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({[name]: value})
-    console.log(this.state);
   }
   postEvent(){
     fetch('https://paulineserver.herokuapp.com/daily_items', {

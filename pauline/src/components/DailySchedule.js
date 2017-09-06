@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button } from 'react-bootstrap';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import Navigation from './Nav';
 import DayView from './DayView';
@@ -37,17 +38,9 @@ class DailySchedule extends React.Component {
       responseJson = responseJson.sort(function(x, y){
         return x.start_time - y.start_time;
       })
-      if (this.state.dailyItems) {
-        let copy = Object.assign({}, this.state);
-        copy.dailyItems = responseJson;
-        this.setState(copy);
-        this.refreshDay();
-      }
-      else {
-        let copy = Object.assign({}, this.state);
-        copy.dailyItems = responseJson;
-        this.setState(copy);
-      }
+      let copy = Object.assign({}, this.state);
+      copy.dailyItems = responseJson;
+      this.setState(copy);
     })
   }
 
@@ -69,21 +62,6 @@ class DailySchedule extends React.Component {
     let copy = Object.assign({}, this.state);
     copy.dateString = dateString;
     this.setState(copy);
-  }
-
-
-
-  refreshDay = () => {
-    this.props.navigation.navigate('DailyItems',
-      {
-        dailyItems: this.state.dailyItems,
-        today: this.state.today,
-        dayConverter: this.dayConverter,
-        refreshDay: this.refreshDay,
-        updateDay: this.updateDay,
-        dateString: this.state.dateString
-      }
-    )
   }
 
   open = () => {
@@ -112,14 +90,37 @@ class DailySchedule extends React.Component {
     this.setState(copy);
   }
 
+  setItem = (id) => this.setState({ itemId: id });
+
+  submitItem = () => {
+    var item = {
+      'daily_item_id': this.state.itemId,
+      'start_time': moment.utc(this.state.startTime).format(),
+      'end_time': moment.utc(this.state.endTime).format()
+    }
+    console.log(this.state.startTime);
+    fetch('https://paulineserver.herokuapp.com/scheduled_items', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item)
+    })
+    .then((res) => {
+      this.weekConverter(this.state.today);
+      console.log(res);
+    })
+  }
 
   render() {
+    console.log(moment.utc(this.state.startTime).format());
     return (
       <div>
         <Navigation />
         <div className="container" >
           <DayView {...this.state} setTime={this.setTime}/>
-          <ScheduleModal {...this.state} open={this.open} close={this.close} setTime={this.setTime} />
+          <ScheduleModal {...this.state} open={this.open} close={this.close} setTime={this.setTime} setItem={this.setItem} submitItem={this.submitItem}/>
         </div>
       </div>
     )

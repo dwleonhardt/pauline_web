@@ -10,17 +10,18 @@ import TimePicker from 'rc-time-picker';
 
 const ScheduleModal = (props) => {
 
-  const start = (time) => {
-    props.setTime({start: time})
+  const handleInputChange = (event) => {
+    props.setItem(event.target.value);
   }
 
-  const end = (time) => {
-    console.log(time);
-  }
+  const start = time => props.setTime({ start: time });
 
-  let items = props.items.map((item, i) => {
-    return <option key={i}>{item.title}</option>
-  });
+  const end = time => props.setTime({ end: time });
+
+
+  let items = props.items.map((item, i) => (
+    <option key={i} value={item.id}>{item.title}</option>
+  ))
 
     return (
       <div>
@@ -47,14 +48,16 @@ const ScheduleModal = (props) => {
             />
             <FormGroup controlId="formControlsSelect">
               <ControlLabel>Select Item</ControlLabel>
-              <FormControl componentClass="select" placeholder="Select Item">
+              <FormControl componentClass="select" placeholder="Select Item" onChange={(e) => {
+                handleInputChange(e)
+              }}>
                 <option value="select">Select Item</option>
                 {items}
               </FormControl>
             </FormGroup>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={props.close}>Submit</Button>
+            <Button onClick={props.submitItem}>Submit</Button>
           </Modal.Footer>
         </Modal>
       </div>
