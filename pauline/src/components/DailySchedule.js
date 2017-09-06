@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button } from 'react-bootstrap';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import Navigation from './Nav';
 import DayView from './DayView';
+import ScheduleModal from './ScheduleModal';
 
 
 class DailySchedule extends React.Component {
@@ -11,14 +13,23 @@ class DailySchedule extends React.Component {
     this.state = {
       today: new Date(),
       dateString: '',
+      showModal: false,
+      startTime: new Date(),
+      endTime: new Date(),
+      items: []
     }
   }
 
   componentDidMount() {
     this.weekConverter(this.state.today);
     this.updateDay(this.state.today);
-  }
 
+    return fetch('https://paulineserver.herokuapp.com/daily_items')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({items: responseJson});
+    })
+  }
 
   getRange = (range) => {
     return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${range}`)
@@ -27,18 +38,9 @@ class DailySchedule extends React.Component {
       responseJson = responseJson.sort(function(x, y){
         return x.start_time - y.start_time;
       })
-      // console.log(responseJson);
-      if (this.state.dailyItems) {
-        let copy = Object.assign({}, this.state);
-        copy.dailyItems = responseJson;
-        this.setState(copy);
-        this.refreshDay();
-      }
-      else {
-        let copy = Object.assign({}, this.state);
-        copy.dailyItems = responseJson;
-        this.setState(copy);
-      }
+      let copy = Object.assign({}, this.state);
+      copy.dailyItems = responseJson;
+      this.setState(copy);
     })
   }
 
@@ -62,26 +64,63 @@ class DailySchedule extends React.Component {
     this.setState(copy);
   }
 
-  refreshDay = () => {
-    this.props.navigation.navigate('DailyItems',
-      {
-        dailyItems: this.state.dailyItems,
-        today: this.state.today,
-        dayConverter: this.dayConverter,
-        refreshDay: this.refreshDay,
-        updateDay: this.updateDay,
-        dateString: this.state.dateString
-      }
-    )
+  open = () => {
+    this.setState({showModal: true});
   }
 
+  close = () => {
+    this.setState({showModal: false});
+  }
+
+  setTime = (slotInfo) => {
+    let copy = Object.assign({}, this.state);
+    if (slotInfo.start && slotInfo.end) {
+      copy.startTime = slotInfo.start;
+      copy.endTime = slotInfo.end;
+      copy.showModal = true;
+    }
+    else if (slotInfo.start) {
+      console.log(slotInfo.start);
+      copy.startTime = slotInfo.start;
+    }
+    else {
+      console.log(slotInfo.end);
+      copy.endTime = slotInfo.end;
+    }
+    this.setState(copy);
+  }
+
+  setItem = (id) => this.setState({ itemId: id });
+
+  submitItem = () => {
+    var item = {
+      'daily_item_id': this.state.itemId,
+      'start_time': moment.utc(this.state.startTime).format(),
+      'end_time': moment.utc(this.state.endTime).format()
+    }
+    console.log(this.state.startTime);
+    fetch('https://paulineserver.herokuapp.com/scheduled_items', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(item)
+    })
+    .then((res) => {
+      this.weekConverter(this.state.today);
+      console.log(res);
+    })
+  }
 
   render() {
+    console.log(moment.utc(this.state.startTime).format());
     return (
       <div>
         <Navigation />
         <div className="container" >
-          <DayView dailyItems={this.state.dailyItems}/>
+          <DayView {...this.state} setTime={this.setTime}/>
+          <ScheduleModal {...this.state} open={this.open} close={this.close} setTime={this.setTime} setItem={this.setItem} submitItem={this.submitItem}/>
         </div>
       </div>
     )
