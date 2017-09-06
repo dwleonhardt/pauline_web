@@ -12,7 +12,9 @@ class DailySchedule extends React.Component {
     this.state = {
       today: new Date(),
       dateString: '',
-      showModal: false
+      showModal: false,
+      startTime: new Date(),
+      endTime: new Date()
     }
   }
 
@@ -85,13 +87,21 @@ class DailySchedule extends React.Component {
     this.setState({showModal: false});
   }
 
+  setTime = (slotInfo) => {
+    let copy = Object.assign({}, this.state);
+    copy.startTime = slotInfo.start;
+    copy.endTime = slotInfo.end;
+    copy.showModal = true;
+    this.setState(copy);
+  }
+
 
   render() {
     return (
       <div>
         <Navigation />
         <div className="container" >
-          <DayView dailyItems={this.state.dailyItems}/>
+          <DayView {...this.state} setTime={this.setTime}/>
           <ScheduleModal {...this.state} open={this.open} close={this.close}/>
         </div>
       </div>
