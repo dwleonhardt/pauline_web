@@ -9,7 +9,7 @@ class Items extends Component {
       title: '',
       instructions: ''
     }
-    
+
   }
 
   handleInputChange = (event) => {

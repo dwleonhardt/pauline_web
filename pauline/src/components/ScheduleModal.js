@@ -53,6 +53,7 @@ const ScheduleModal = (props) => {
               }}>
                 <option value="select">Select Item</option>
                 {items}
+                <option>+ Item</option>
               </FormControl>
             </FormGroup>
           </Modal.Body>
