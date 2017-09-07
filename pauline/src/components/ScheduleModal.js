@@ -11,7 +11,12 @@ import TimePicker from 'rc-time-picker';
 const ScheduleModal = (props) => {
 
   const handleInputChange = (event) => {
-    props.setItem(event.target.value);
+    if (event.target.value === '+ Item') {
+      props.toggleModals();
+    }
+    else {
+      props.setItem(event.target.value);
+    }
   }
 
   const start = time => props.setTime({ start: time });
