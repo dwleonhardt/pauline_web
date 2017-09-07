@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Navigation from './Nav';
 import DayView from './DayView';
 import ScheduleModal from './ScheduleModal';
-import ItemModal from './Items';
 
 
 class DailySchedule extends React.Component {
@@ -15,7 +14,6 @@ class DailySchedule extends React.Component {
       today: new Date(),
       dateString: '',
       showModal: false,
-      itemModal: false,
       startTime: new Date(),
       endTime: new Date(),
       items: []
@@ -25,10 +23,7 @@ class DailySchedule extends React.Component {
   componentDidMount() {
     this.weekConverter(this.state.today);
     this.updateDay(this.state.today);
-    this.getItems();
-  }
 
-  getItems = () => {
     return fetch('https://paulineserver.herokuapp.com/daily_items')
     .then((response) => response.json())
     .then((responseJson) => {
@@ -54,7 +49,7 @@ class DailySchedule extends React.Component {
     let day = dateCopy.getDay();
     let sunday = dateCopy.getDate() - day + (day === 0 ? -6:-1);
     let weekStart = new Date(dateCopy.setDate(sunday)).toUTCString();
-    let saturday = dateCopy.getDate() - day + (day === 0 ? -6:11);
+    let saturday = dateCopy.getDate() - day + (day === 0 ? -6:10);
     let weekEnd = new Date(dateCopy.setDate(saturday)).toUTCString();
     let range = JSON.stringify({start:`${weekStart}`, end:`${weekEnd}`});
     console.log(range);
@@ -98,12 +93,6 @@ class DailySchedule extends React.Component {
 
   setItem = (id) => this.setState({ itemId: id });
 
-  toggleModals = () => {
-    console.log('here');
-    this.setState({ showModal: !this.state.showModal });
-    this.setState({ itemModal: !this.state.itemModal });
-  }
-
   submitItem = () => {
     var item = {
       'daily_item_id': this.state.itemId,
@@ -133,8 +122,7 @@ class DailySchedule extends React.Component {
         <Navigation />
         <div className="container" >
           <DayView {...this.state} setTime={this.setTime}/>
-          <ScheduleModal {...this.state} open={this.open} close={this.close} setTime={this.setTime} setItem={this.setItem} submitItem={this.submitItem} toggleModals={this.toggleModals}/>
-          <ItemModal {...this.state} toggleModals={this.toggleModals} getItems={this.getItems}/>
+          <ScheduleModal {...this.state} open={this.open} close={this.close} setTime={this.setTime} setItem={this.setItem} submitItem={this.submitItem}/>
         </div>
       </div>
     )

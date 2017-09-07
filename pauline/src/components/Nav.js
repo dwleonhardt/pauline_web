@@ -14,10 +14,11 @@ class Navigation extends Component {
         <Nav>
           <NavItem eventKey={1} href="#">About</NavItem>
           <NavItem eventKey={2} href="#">Contact</NavItem>
-          <NavItem eventKey={3} href="/daily-schedule">Daily Schedule</NavItem>
+          <NavItem eventKey={2} href="/add-items">Add Items</NavItem>
+          <NavItem eventKey={2} href="/daily-schedule">Daily Schedule</NavItem>
         </Nav>
         <Nav pullRight>
-          <NavItem eventKey={4} href="#">Login</NavItem>
+          <NavItem eventKey={3} href="#">Login</NavItem>
         </Nav>
 
       </Navbar>
