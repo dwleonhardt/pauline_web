@@ -5,6 +5,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
+
 BigCalendar.momentLocalizer(moment);
 
 
@@ -28,7 +29,7 @@ const DayView = (props) => {
           endAccessor='end_time'
           views={['week', 'day']}
           defaultView='week'
-          onSelectEvent={event => alert(event.title)}
+          onSelectEvent={event => props.showEvent(event)}
           onSelectSlot={(slotInfo) => props.setTime(slotInfo)}
         />
       </div>
