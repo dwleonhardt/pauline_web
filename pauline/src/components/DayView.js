@@ -28,6 +28,7 @@ const DayView = (props) => {
           endAccessor='end_time'
           views={['week', 'day']}
           defaultView='week'
+          onSelectEvent={event => alert(event.title)}
           onSelectSlot={(slotInfo) => props.setTime(slotInfo)}
         />
       </div>
