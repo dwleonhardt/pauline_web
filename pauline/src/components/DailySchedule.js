@@ -6,6 +6,7 @@ import Navigation from './Nav';
 import DayView from './DayView';
 import ScheduleModal from './ScheduleModal';
 import ItemModal from './Items';
+import ViewEvents from './ViewEvent';
 
 
 class DailySchedule extends React.Component {
@@ -16,9 +17,10 @@ class DailySchedule extends React.Component {
       dateString: '',
       showModal: false,
       itemModal: false,
+      eventModal: false,
       startTime: new Date(),
       endTime: new Date(),
-      items: []
+      items: [],
     }
   }
 
@@ -78,6 +80,8 @@ class DailySchedule extends React.Component {
     this.setState({showModal: false});
   }
 
+  closeEvent = () => this.setState({ eventModal: false });
+
   setTime = (slotInfo) => {
     let copy = Object.assign({}, this.state);
     if (slotInfo.start && slotInfo.end) {
@@ -104,6 +108,11 @@ class DailySchedule extends React.Component {
     this.setState({ itemModal: !this.state.itemModal });
   }
 
+  showEvent = (event) => {
+    this.setState({ selectedEvent : event});
+    this.setState({ eventModal: true });
+  }
+
   submitItem = () => {
     var item = {
       'daily_item_id': this.state.itemId,
@@ -127,14 +136,14 @@ class DailySchedule extends React.Component {
   }
 
   render() {
-    console.log(moment.utc(this.state.startTime).format());
     return (
       <div>
         <Navigation />
         <div className="container" >
-          <DayView {...this.state} setTime={this.setTime}/>
+          <DayView {...this.state} setTime={this.setTime} showEvent={this.showEvent}/>
           <ScheduleModal {...this.state} open={this.open} close={this.close} setTime={this.setTime} setItem={this.setItem} submitItem={this.submitItem} toggleModals={this.toggleModals}/>
           <ItemModal {...this.state} toggleModals={this.toggleModals} getItems={this.getItems}/>
+          <ViewEvents event={this.state.selectedEvent} eventModal={this.state.eventModal} closeEvent={this.closeEvent}/>
         </div>
       </div>
     )
