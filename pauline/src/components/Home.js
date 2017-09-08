@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Jumbotron, Button, Col } from 'react-bootstrap';
+import {Jumbotron, Button, Col, Row, Panel, FormControl, FormGroup } from 'react-bootstrap';
 import Navigation from './Nav';
 
 class Home extends Component {
@@ -7,15 +7,48 @@ class Home extends Component {
     return (
       <div>
         <Navigation />
-        <Col md={8} mdOffset={2} className="container">
-          <Jumbotron>
-            <h1>Welcome to Pauline</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p><Button bsStyle="primary">Learn more</Button></p>
-          </Jumbotron>
+        <Col md={8} mdOffset={2} className="container" style={styles.padLogin}>
+          <Panel style={styles.header}>
+            <p className="text-center">Login</p>
+            <Panel>
+              <FormGroup style={styles.pad}>
+                <Col md={6}>
+                  <p style={styles.form}>Username</p>
+                  <FormControl type="text" />
+                </Col>
+                <Col md={6}>
+                  <p style={styles.form}>Password</p>
+                  <FormControl type="password" />
+                </Col>
+                <div style={styles.padButton} className="text-center">
+                  <Button href="/daily-schedule">Login</Button>
+                </div>
+              </FormGroup>
+            </Panel>
+          </Panel>
         </Col>
       </div>
     );
+  }
+}
+
+const styles = {
+  header: {
+    color: 'white',
+    backgroundColor: '#F41127'
+  },
+  form: {
+    color: 'black'
+  },
+  pad: {
+    paddingBottom: '10%',
+    paddingTop: '10%'
+  },
+  padLogin: {
+    paddingTop: '10%'
+  },
+  padButton: {
+    paddingTop: '10%'
   }
 }
 
