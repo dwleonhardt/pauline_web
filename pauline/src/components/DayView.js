@@ -11,7 +11,7 @@ BigCalendar.momentLocalizer(moment);
 
 const DayView = (props) => {
   let items;
-  if (props.dailyItems && props.dailyItems.length) {
+  if (props.dailyItems) {
     items = props.dailyItems.map((item, i) => {
       item.start_time = new Date(item.start_time);
       item.end_time = new Date(item.end_time);
