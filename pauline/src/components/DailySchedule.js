@@ -59,7 +59,6 @@ class DailySchedule extends React.Component {
     let saturday = dateCopy.getDate() - day + (day === 0 ? -6:11);
     let weekEnd = new Date(dateCopy.setDate(saturday)).toUTCString();
     let range = JSON.stringify({start:`${weekStart}`, end:`${weekEnd}`});
-    console.log(range);
     this.updateDay(date);
     this.getRange(range);
   }
