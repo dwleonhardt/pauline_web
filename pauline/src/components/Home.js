@@ -20,7 +20,7 @@ class Home extends React.Component {
             </Panel>
           </Panel>
         </Col>
-      </div>
+      </div> 
     );
   }
 }
