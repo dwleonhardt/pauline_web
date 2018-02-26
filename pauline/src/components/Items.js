@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button, Modal } from 'react-bootstrap';
+import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button, Modal, Row } from 'react-bootstrap';
 import Navigation from './Nav';
 
 class ItemModal extends Component {
@@ -36,31 +36,27 @@ class ItemModal extends Component {
 
   render() {
     return (
-        <Modal show={this.props.itemModal} onHide={this.props.close}>
+        <Modal show={this.props.itemModal} onHide={this.props.toggleModals}>
           <Modal.Header closeButton>
             <Modal.Title>Add Schedule Item</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Col md={6} mdOffset={3}>
-              <FormGroup controlId="form">
-                <ControlLabel>Title</ControlLabel>
-                <FormControl type="text" placeholder="Title" name="title" onChange={(e) => {
+            <FormGroup controlId="form">
+              <ControlLabel>Title</ControlLabel>
+              <FormControl type="text" placeholder="Title" name="title" onChange={(e) => {
+                this.handleInputChange(e)
+              }} value={this.state.title}/>
+              <FormControl.Feedback />
+              <HelpBlock>This will be the title of the schedule item</HelpBlock>
+            </FormGroup>
+            <FormGroup controlId="formBasicText">
+              <FormGroup controlId="formControlsTextarea">
+                <ControlLabel>Instructions</ControlLabel>
+                <FormControl componentClass="textarea" placeholder="Instructions" name="instructions" onChange={(e) => {
                   this.handleInputChange(e)
-                }} value={this.state.title}/>
-                <FormControl.Feedback />
-                <HelpBlock>This will be the title of the schedule item</HelpBlock>
+                }} value={this.state.instructions}/>
               </FormGroup>
-            </Col>
-            <Col md={6} mdOffset={3}>
-              <FormGroup controlId="formBasicText">
-                <FormGroup controlId="formControlsTextarea">
-                  <ControlLabel>Instructions</ControlLabel>
-                  <FormControl componentClass="textarea" placeholder="Instructions" name="instructions" onChange={(e) => {
-                    this.handleInputChange(e)
-                  }} value={this.state.instructions}/>
-                </FormGroup>
-              </FormGroup>
-            </Col>
+            </FormGroup>
           </Modal.Body>
           <Modal.Footer>
             <Button bsStyle="primary" onClick={() => this.postEvent()}>Submit</Button>

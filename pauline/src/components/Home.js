@@ -1,27 +1,20 @@
 import React, { Component } from 'react';
-import {Jumbotron, Button, Col, Row, Panel, FormControl, FormGroup } from 'react-bootstrap';
+import {Jumbotron, Button, Col, Row, Panel, FormControl, FormGroup, Modal } from 'react-bootstrap';
+import pauline_logo from '../assets/pauline_logo.png';
 import Navigation from './Nav';
 
-class Home extends Component {
+class Home extends React.Component {
   render() {
     return (
       <div>
         <Navigation />
         <Col md={8} mdOffset={2} className="container" style={styles.padLogin}>
           <Panel style={styles.header}>
-            <p className="text-center">Login</p>
+            <h1 className="text-center">Welcome</h1>
             <Panel>
               <FormGroup style={styles.pad}>
-                <Col md={6}>
-                  <p style={styles.form}>Username</p>
-                  <FormControl type="text" />
-                </Col>
-                <Col md={6}>
-                  <p style={styles.form}>Password</p>
-                  <FormControl type="password" />
-                </Col>
                 <div style={styles.padButton} className="text-center">
-                  <Button href="/daily-schedule">Login</Button>
+                  <Button bsStyle="primary" href="/daily-schedule">Enter</Button>
                 </div>
               </FormGroup>
             </Panel>
@@ -35,7 +28,7 @@ class Home extends Component {
 const styles = {
   header: {
     color: 'white',
-    backgroundColor: '#F41127'
+    backgroundColor: '#2fa9ef'
   },
   form: {
     color: 'black'

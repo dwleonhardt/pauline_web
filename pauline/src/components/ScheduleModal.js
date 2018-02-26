@@ -3,7 +3,6 @@ import { Col, Row, Button, Modal, FormGroup, ControlLabel, FormControl } from 'r
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
-//
 
 
 

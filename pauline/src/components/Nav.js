@@ -15,15 +15,6 @@ class Navigation extends Component {
             </span>
           </Navbar.Brand>
         </Navbar.Header>
-        <Nav>
-          
-        </Nav>
-        <Nav pullRight>
-          <NavItem eventKey={4} href="#">
-            <span style={styles.navItem}>Login</span>
-          </NavItem>
-        </Nav>
-
       </Navbar>
     );
   }
@@ -31,7 +22,7 @@ class Navigation extends Component {
 
 const styles = {
   nav: {
-    backgroundColor: '#F41127'
+    backgroundColor: '#2fa9ef'
   },
   navItem: {
     color: 'white'

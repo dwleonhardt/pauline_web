@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button } from 'react-bootstrap';
+import { Col, FormGroup, FormControl, HelpBlock, ControlLabel, Button, Modal } from 'react-bootstrap';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import Navigation from './Nav';
@@ -84,9 +84,9 @@ class DailySchedule extends React.Component {
   setTime = (slotInfo) => {
     let copy = Object.assign({}, this.state);
     if (slotInfo.start && slotInfo.end) {
+      console.log(slotInfo.start);
       copy.startTime = slotInfo.start;
       copy.endTime = slotInfo.end;
-      copy.showModal = true;
     }
     else if (slotInfo.start) {
       console.log(slotInfo.start);
@@ -96,6 +96,7 @@ class DailySchedule extends React.Component {
       console.log(slotInfo.end);
       copy.endTime = slotInfo.end;
     }
+    copy.showModal = true;
     this.setState(copy);
   }
 
@@ -133,12 +134,11 @@ class DailySchedule extends React.Component {
       console.log(res);
     })
   }
-
   render() {
     return (
       <div>
-        <Navigation />
         <div className="container" >
+          <Navigation />
           <DayView {...this.state} setTime={this.setTime} showEvent={this.showEvent}/>
           <ScheduleModal {...this.state} open={this.open} close={this.close} setTime={this.setTime} setItem={this.setItem} submitItem={this.submitItem} toggleModals={this.toggleModals}/>
           <ItemModal {...this.state} toggleModals={this.toggleModals} getItems={this.getItems}/>
